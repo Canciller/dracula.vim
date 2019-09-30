@@ -41,5 +41,11 @@ if exists('g:loaded_ctrlp')
   hi! link CtrlPBufferHid Normal
 endif
 " }}}
+" Semshi: {{{
+if exists('g:semshi#active') && g:semshi#active
+    hi! link semshiErrorSign DraculaRedBold
+    hi! link semshiErrorChar DraculaErrorLine
+endif
+" }}}
 
 " vim: fdm=marker ts=2 sts=2 sw=2 fdl=0:

@@ -31,27 +31,30 @@ endif
 
 " Palette: {{{2
 
-let s:fg        = g:dracula#palette.fg
+let s:fg               = g:dracula#palette.fg
 
-let s:bglighter = g:dracula#palette.bglighter
-let s:bglight   = g:dracula#palette.bglight
-let s:bg        = g:dracula#palette.bg
-let s:bgdark    = g:dracula#palette.bgdark
-let s:bgdarker  = g:dracula#palette.bgdarker
+let s:fg_inactive      = g:dracula#palette.fg_inactive
+let s:fg_inactivelight = g:dracula#palette.fg_inactivelight
 
-let s:comment   = g:dracula#palette.comment
-let s:selection = g:dracula#palette.selection
-let s:subtle    = g:dracula#palette.subtle
+let s:bglighter        = g:dracula#palette.bglighter
+let s:bglight          = g:dracula#palette.bglight
+let s:bg               = g:dracula#palette.bg
+let s:bgdark           = g:dracula#palette.bgdark
+let s:bgdarker         = g:dracula#palette.bgdarker
 
-let s:cyan      = g:dracula#palette.cyan
-let s:green     = g:dracula#palette.green
-let s:orange    = g:dracula#palette.orange
-let s:pink      = g:dracula#palette.pink
-let s:purple    = g:dracula#palette.purple
-let s:red       = g:dracula#palette.red
-let s:yellow    = g:dracula#palette.yellow
+let s:comment          = g:dracula#palette.comment
+let s:selection        = g:dracula#palette.selection
+let s:subtle           = g:dracula#palette.subtle
 
-let s:none      = ['NONE', 'NONE']
+let s:cyan             = g:dracula#palette.cyan
+let s:green            = g:dracula#palette.green
+let s:orange           = g:dracula#palette.orange
+let s:pink             = g:dracula#palette.pink
+let s:purple           = g:dracula#palette.purple
+let s:red              = g:dracula#palette.red
+let s:yellow           = g:dracula#palette.yellow
+
+let s:none             = ['NONE', 'NONE']
 
 if has('nvim')
   for s:i in range(16)
@@ -135,15 +138,26 @@ endfunction
 
 call s:h('DraculaBgLight', s:none, s:bglight)
 call s:h('DraculaBgLighter', s:none, s:bglighter)
+call s:h('DraculaBg', s:none, s:bg)
 call s:h('DraculaBgDark', s:none, s:bgdark)
 call s:h('DraculaBgDarker', s:none, s:bgdarker)
+
+call s:h('DraculaBgInactive', s:fg_inactivelight, s:bg)
 
 call s:h('DraculaFg', s:fg)
 call s:h('DraculaFgUnderline', s:fg, s:none, [s:attrs.underline])
 call s:h('DraculaFgBold', s:fg, s:none, [s:attrs.bold])
+call s:h('DraculaFgItalic', s:fg, s:none, [s:attrs.italic])
+
+call s:h('DraculaFgInactive', s:fg_inactive)
+call s:h('DraculaFgInactiveBold', s:fg_inactive, s:none, [s:attrs.bold])
+
+call s:h('DraculaFgInactiveLight', s:fg_inactivelight)
+call s:h('DraculaFgInactiveLightBold', s:fg_inactivelight, s:none, [s:attrs.bold])
 
 call s:h('DraculaComment', s:comment)
 call s:h('DraculaCommentBold', s:comment, s:none, [s:attrs.bold])
+call s:h('DraculaCommentItalic', s:comment, s:none, [s:attrs.italic])
 
 call s:h('DraculaSelection', s:none, s:selection)
 
@@ -171,6 +185,7 @@ call s:h('DraculaPurpleBold', s:purple, s:none, [s:attrs.bold])
 call s:h('DraculaPurpleItalic', s:purple, s:none, [s:attrs.italic])
 
 call s:h('DraculaRed', s:red)
+call s:h('DraculaRedBold', s:red, s:none, [s:attrs.bold])
 call s:h('DraculaRedInverse', s:fg, s:red)
 
 call s:h('DraculaYellow', s:yellow)
@@ -184,7 +199,7 @@ call s:h('DraculaInfoLine', s:none, s:none, [s:attrs.undercurl], s:cyan)
 
 call s:h('DraculaTodo', s:cyan, s:none, [s:attrs.bold, s:attrs.inverse])
 call s:h('DraculaSearch', s:green, s:none, [s:attrs.inverse])
-call s:h('DraculaBoundary', s:comment, s:bgdark)
+call s:h('DraculaBoundary', s:bg, s:bg)
 call s:h('DraculaLink', s:cyan, s:none, [s:attrs.underline])
 
 call s:h('DraculaDiffChange', s:orange, s:none)
@@ -201,15 +216,15 @@ set background=dark
 " Required as some plugins will overwrite
 call s:h('Normal', s:fg, g:dracula_colorterm || has('gui_running') ? s:bgdark : s:none )
 call s:h('StatusLine', s:none, s:bglighter, [s:attrs.bold])
-call s:h('StatusLineNC', s:none, s:bglight)
+call s:h('StatusLineNC', s:fg_inactivelight, s:bg)
 call s:h('StatusLineTerm', s:none, s:bglighter, [s:attrs.bold])
-call s:h('StatusLineTermNC', s:none, s:bglight)
+call s:h('StatusLineTermNC', s:fg_inactivelight, s:bg)
 call s:h('WildMenu', s:bg, s:purple, [s:attrs.bold])
-call s:h('CursorLine', s:none, s:subtle)
+call s:h('CursorLine', s:none, s:bglight)
 
 hi! link ColorColumn  DraculaBgDark
 hi! link CursorColumn CursorLine
-hi! link CursorLineNr DraculaYellow
+hi! link CursorLineNr DraculaFgInactiveLightBold
 hi! link DiffAdd      DraculaGreen
 hi! link DiffAdded    DiffAdd
 hi! link DiffChange   DraculaDiffChange
@@ -217,28 +232,29 @@ hi! link DiffDelete   DraculaDiffDelete
 hi! link DiffRemoved  DiffDelete
 hi! link DiffText     DraculaDiffText
 hi! link Directory    DraculaPurpleBold
-hi! link ErrorMsg     DraculaRedInverse
+hi! link ErrorMsg     DraculaRedBold
 hi! link FoldColumn   DraculaSubtle
-hi! link Folded       DraculaBoundary
+hi! link Folded       DraculaCommentItalic
 hi! link IncSearch    DraculaOrangeInverse
-hi! link LineNr       DraculaComment
+hi! link LineNr       DraculaFgInactive
 hi! link MoreMsg      DraculaFgBold
-hi! link NonText      DraculaSubtle
-hi! link Pmenu        DraculaBgDark
-hi! link PmenuSbar    DraculaBgDark
+hi! link NonText      DraculaFgInactive
+hi! link EndOfBuffer  DraculaFgInactiveBold
+hi! link Pmenu        DraculaBg
+hi! link PmenuSbar    DraculaBg
 hi! link PmenuSel     DraculaSelection
 hi! link PmenuThumb   DraculaSelection
 hi! link Question     DraculaFgBold
 hi! link Search       DraculaSearch
 hi! link SignColumn   DraculaComment
-hi! link TabLine      DraculaBoundary
-hi! link TabLineFill  DraculaBgDarker
-hi! link TabLineSel   Normal
-hi! link Title        DraculaGreenBold
+hi! link TabLine      DraculaBgInactive
+hi! link TabLineFill  DraculaBg
+hi! link TabLineSel   DraculaFgBold
+hi! link Title        DraculaPinkItalic
 hi! link VertSplit    DraculaBoundary
-hi! link Visual       DraculaSelection
+hi! link Visual       CursorLine
 hi! link VisualNOS    Visual
-hi! link WarningMsg   DraculaOrangeInverse
+hi! link WarningMsg   DraculaOrangeBold
 
 " }}}
 " Syntax: {{{

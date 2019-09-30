@@ -234,7 +234,7 @@ hi! link DiffText     DraculaDiffText
 hi! link Directory    DraculaPurpleBold
 hi! link ErrorMsg     DraculaRedBold
 hi! link FoldColumn   DraculaSubtle
-hi! link Folded       DraculaCommentItalic
+hi! link Folded       DraculaBgLight
 hi! link IncSearch    DraculaOrangeInverse
 hi! link LineNr       DraculaFgInactive
 hi! link MoreMsg      DraculaFgBold
